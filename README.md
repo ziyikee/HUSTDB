@@ -3,6 +3,8 @@ HUST数据库实验-基于Mybatis的学生信息管理系统
 
 主要利用Mybatis框架实现连接数据库与操作数据库
 
+Resource目录下为Mybatis配置文件与Mapper映射文件
+
 目录src下的pojo包下主要是数据库表信息对应的实体类，以及实现指定功能的方法类
 
 Test类为主界面，完成与用户的交互
