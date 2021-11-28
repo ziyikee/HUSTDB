@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DBMapper">
+
+    <select id="selectAllStudent" resultType="pojo.Student">
+        select * from student
+    </select>
+    <select id="selectOneStudent" resultType="pojo.Student" parameterType="String">
+        select * from student where sno = #{value}
+    </select>
+
+    <select id="selectAllCourse" resultType="pojo.Course">
+        select * from course
+    </select>
+    <select id="searchCpno" resultType="pojo.Course" parameterType="String">
+        select * from course where cno = #{value}
+    </select>
+    <select id="selectCourseByName" parameterType="String" resultType="pojo.Course">
+        select * from course where cname = #{value}
+    </select>
+    <select id="getSdeptByCno" parameterType="String" resultType="String">
+        select distinct sdept from student,sc where sc.cno = #{value} and sc.sno = student.sno
+    </select>
+    <select id="getRank" resultType="pojo.StudentGrade" parameterType="map">
+        select student.sno as sno ,sname as sname,cname as cname,grade as grade from student,course,sc where sc.cno = #{cno} and sc.cno = course.cno and sc.sno = student.sno and student.sdept = #{sdept} order by grade desc
+    </select>
+    <select id="selectAllSc" resultType="pojo.Sc">
+        select * from sc
+    </select>
+    <select id="selectOneStudentGrade" resultType="pojo.Sc" parameterType="String">
+        select sno,cname as Cno,grade from sc,course where sno = #{value} and sc.cno = course.cno
+    </select>
+    <select id="selectCnoList" resultType="String">
+        select distinct cno from course
+    </select>
+    <select id="getCnoName" parameterType="String" resultType="String">
+        select cname from course where cno = #{value}
+    </select>
+    <select id="getCnoData" parameterType="String" resultType="pojo.GradeData">
+        select student.sdept,avg(grade)as average_grade,max(grade) as max_grade,min(grade) as min_grade,count(*) as counts  from student,sc where sc.cno = #{value} and sc.sno = student.sno group by student.sdept
+    </select>
+    <select id="getHigh" resultType="int" parameterType="map">
+        select count(*) as highcounts from student,sc where sc.cno = #{cno} and sc.sno = student.sno and student.sdept = #{dept} and sc.grade >=90
+    </select>
+    <select id="getLow" resultType="int" parameterType="map">
+        select count(*) as loccounts from student,sc where sc.cno = #{cno} and sc.sno = student.sno and student.sdept = #{dept} and 60 >sc.grade
+    </select>
+    <select id="selectScBySnoAndCno" resultType="pojo.Sc" parameterType="map">
+        select * from sc where sno = #{sno} and cno = #{cno}
+    </select>
+
+    <insert id="addStudent" parameterType="pojo.Student">
+        insert into student
+            (sno,sname,ssex,sage,sdept,Scholarship)
+        values(#{Sno},#{Sname},#{Ssex},#{Sage},#{Sdept},#{Scholarship})
+    </insert>
+    <insert id="addCourse" parameterType="pojo.Course">
+        insert into course
+            (cno,cname,cpno,ccredit)
+        values(#{Cno},#{Cname},#{Cpno},#{Ccredit})
+    </insert>
+    <insert id="addSc" parameterType="pojo.Sc">
+        insert into sc
+            (sno,cno,grade)
+        values(#{Sno},#{Cno},#{Grade})
+    </insert>
+
+    <update id="modifySno" parameterType="map">
+            update student set sno = #{value} where sno = #{sno}
+    </update>
+    <update id="modifySname" parameterType="map">
+        update student set sname = #{value} where sno = #{sno}
+    </update>
+    <update id="modifySsex" parameterType="map">
+        update student set ssex = #{value} where sno = #{sno}
+    </update>
+    <update id="modifySage" parameterType="map">
+        update student set sage = #{value} where sno = #{sno}
+    </update>
+    <update id="modifySdept" parameterType="map">
+        update student set sdept = #{value} where sno = #{sno}
+    </update>
+    <update id="modifyCno" parameterType="map">
+        update course set cno = #{value} where cname = #{cname}
+    </update>
+    <update id="modifyCname" parameterType="map">
+        update course set cname = #{value} where cname = #{cname}
+    </update>
+    <update id="modifyCpno" parameterType="map">
+        update course set cpno = #{value} where cname = #{cname}
+    </update>
+    <update id="modifyCcredit" parameterType="map">
+        update course set ccredit = #{value} where cname = #{cname}
+    </update>
+    <update id="modifySc" parameterType="pojo.Sc">
+        update  course set grade = #{Grade} where sno = #{Sno} and cno = #{Cno}
+    </update>
+    <delete id="deleteCourse" parameterType="String">
+        delete from course where cname = #{value}
+    </delete>
+    <delete id="deleteStudent" parameterType="String">
+        delete from student where sno = #{value}
+    </delete>
+    <delete id="deleteSc" parameterType="map">
+        delete from sc where sno = #{sno} and cno = #{cno}
+    </delete>
+
+</mapper>

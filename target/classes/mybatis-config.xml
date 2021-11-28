@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 环境，可以配置多个，default：指定采用哪个环境 -->
+    <settings>
+        <setting name="logImpl" value="log4j" />
+    </settings>
+    <!-- 配置mybatis运行环境 -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 使用JDBC的事务管理 -->
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <!-- MySQL数据库驱动  characterEncoding=utf8-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
+                <!-- 连接数据库的URL -->
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/CSEDB_U201911749?characterEncoding=utf8" />
+                <property name="username" value="root" />
+                <property name="password" value="zyk192317" />
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 将mapper文件加入到配置文件中 -->
+    <mappers>
+        <mapper resource="DBMapper.xml" />
+    </mappers>
+</configuration>
